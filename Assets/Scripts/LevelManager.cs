@@ -20,11 +20,12 @@ public class LevelManager : MonoBehaviour
     
     public int playerScore;
     public int time = 60 * 8;
-    
+
+    public static bool isMushroomMode = false;
     public int mushroomEffectTime = 3;
     private int mushroomEffectDefaultTime;
-    private int mushrooms = 10; 
-    
+    private int mushrooms = 10;
+
     private void Start()
     {
         // MushroomEffectChangeEvent = defaultFn;
@@ -53,9 +54,10 @@ public class LevelManager : MonoBehaviour
         }
         
         _pressed_mushroom_key |= Input.GetKeyDown(KeyCode.T);
-        if (_pressed_mushroom_key && mushroomEffectTime == mushroomEffectDefaultTime && mushrooms > 0)
+        if (_pressed_mushroom_key && !isMushroomMode && mushrooms > 0)
         {
-            MushroomEffectChangeEvent?.Invoke(true);
+            isMushroomMode = true;
+            MushroomEffectChangeEvent?.Invoke(isMushroomMode);
             mushrooms--;
             UIManager.OnUpdateMushroomCount += () => mushrooms;
             StartCoroutine(StartMushroomTimer());
@@ -85,7 +87,8 @@ public class LevelManager : MonoBehaviour
         }
         UIManager.OnUpdateMushroomTime += () => 0;
 
-        MushroomEffectChangeEvent?.Invoke(false);
+        isMushroomMode = false;
+        MushroomEffectChangeEvent?.Invoke(isMushroomMode);
         mushroomEffectTime = mushroomEffectDefaultTime;
     }
 
