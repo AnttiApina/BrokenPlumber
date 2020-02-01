@@ -18,7 +18,6 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 cur_velo = Vector2.zero;
     
     private List<ContactPoint2D> contact_list = new List<ContactPoint2D>();
-    private List<ContactPoint2D> ladder_contacts = new List<ContactPoint2D>();
 
     private bool is_grounded = false;
     private bool is_dropping = false;
@@ -28,6 +27,7 @@ public class PlayerMovement : MonoBehaviour
     public bool pressed_repair = false;
 
     LayerMask ladderModeMask;
+    LayerMask ladderMask;
     ContactFilter2D  ladderModeFilter;
     
     [SerializeField]
@@ -53,6 +53,8 @@ public class PlayerMovement : MonoBehaviour
         _boxCollider2D = GetComponent<BoxCollider2D>();
 
         ladderModeMask = LayerMask.GetMask("Ground");
+        ladderMask = LayerMask.GetMask("Ladders");
+
         ladderModeFilter = new ContactFilter2D();
         ladderModeFilter.useLayerMask = true;
         ladderModeFilter.SetLayerMask(ladderModeMask);
@@ -155,20 +157,33 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void OnTriggerStay2D(Collider2D other)
+    void CheckLadderMode(Collider2D other)
     {
-        Debug.Log("Stay");
-        if (other.tag == "LADDER")
+        if (ladder_mode || !other.CompareTag("LADDER"))
         {
-            Debug.Log("FOUND LADDER");
+            return;
         }
-        if (!ladder_mode && other.tag == "LADDER" && Input.GetKey(KeyCode.K))
+        
+        var rigidTransformPosition = _rgd2d.transform.position;
+        var ladderAbove = Physics2D.OverlapBox(rigidTransformPosition + Vector3.up * 1.25f, Vector2.one * 0.1f, 0f, ladderMask);
+        var ladderBelow = Physics2D.OverlapBox(rigidTransformPosition + Vector3.down * 1.25f, Vector2.one * 0.1f, 0f, ladderMask);
+
+        if (ladderAbove && Input.GetAxisRaw("Vertical") > 0)
         {
-            Debug.Log("HELLO");
-            var transform1 = _rgd2d.transform;
-            transform1.position = new Vector3(other.transform.position.x, transform1.position.y - 0.5f, 0);
+            rigidTransformPosition = new Vector3(other.transform.position.x, rigidTransformPosition.y + 0.25f, 0);
+            _rgd2d.transform.position = rigidTransformPosition;
+            ladder_mode = true;
+        } else if (ladderBelow && Input.GetAxisRaw("Vertical") < 0)
+        {
+            rigidTransformPosition = new Vector3(other.transform.position.x, rigidTransformPosition.y - 0.5f, 0);
+            _rgd2d.transform.position = rigidTransformPosition;
             ladder_mode = true;
         }
+    }
+
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        CheckLadderMode(other);
     }
 
     IEnumerator PlayerIsFixing()
