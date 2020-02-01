@@ -45,7 +45,7 @@ Rigidbody2D:
   m_GameObject: {fileID: 1961531680064668302}
   m_BodyType: 0
   m_Simulated: 1
-  m_UseFullKinematicContacts: 0
+  m_UseFullKinematicContacts: 1
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
@@ -145,6 +145,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1f61fb223442334fb19d0f148274d19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ladder_mode: 0
   pressed_repair: 0
   m_speed: 13
   m_smooth_time: 0.05

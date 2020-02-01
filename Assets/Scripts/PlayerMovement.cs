@@ -8,7 +8,7 @@ using UnityEngine.Tilemaps;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : Mushroomable
 {
     private Rigidbody2D _rgd2d;
     private Animator _animator;
@@ -33,7 +33,13 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     [Range(0, 40)]
     private float m_speed = 10.0f;
-    
+
+    [SerializeField]
+    [Range(0, 40)]
+    private float grimSpeed = 5.0f;
+
+    private float currentSpeed;
+
     [SerializeField]
     [Range(0.1f, 1.0f)]
     private float m_smooth_time = .05f;
@@ -47,6 +53,8 @@ public class PlayerMovement : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
+        base.Awake();
+        currentSpeed = grimSpeed;
         _rgd2d = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
@@ -60,11 +68,16 @@ public class PlayerMovement : MonoBehaviour
         ladderModeFilter.SetLayerMask(ladderModeMask);
     }
 
+    public override void MushroomEffect(bool isMushroomState)
+    {
+        currentSpeed = isMushroomState ? m_speed : grimSpeed;
+    }
+
     private void Update()
     {
-        pressed_jump |= Input.GetButtonDown("Jump");
+        pressed_jump |= Input.GetButtonDown("Jump") && LevelManager.isMushroomMode;
         pressed_repair |= Input.GetKeyDown(KeyCode.R);
-        pressed_fall |=  Input.GetButton("Jump") && Input.GetKey(KeyCode.S);
+        pressed_fall |=  Input.GetButton("Jump") && Input.GetKey(KeyCode.S) && LevelManager.isMushroomMode;
         Debug.Log(pressed_fall);
     }
 
@@ -89,7 +102,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         Vector2 velocity;
-        var newSpeed = is_dropping ? 0 : m_speed;
+        var newSpeed = is_dropping ? 0 : currentSpeed;
         var newVelocity = new Vector2(Input.GetAxisRaw("Horizontal") * newSpeed, (velocity = this._rgd2d.velocity).y);
         _rgd2d.velocity = Vector2.SmoothDamp(velocity, newVelocity, ref cur_velo, m_smooth_time);
 
