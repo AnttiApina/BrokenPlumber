@@ -9,7 +9,8 @@ public class Appliance : MonoBehaviour
     public Sprite workingState;
     public Sprite brokenState;
 
-    public bool isWorking = true; 
+    public bool isWorking = true;
+    public int order = 0;
     
     // Start is called before the first frame update
     void Start()
@@ -21,7 +22,7 @@ public class Appliance : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         PlayerMovement playerMovement = other.gameObject.GetComponent<PlayerMovement>();
-        if (playerMovement != null && !isWorking)
+        if (playerMovement != null && playerMovement.pressed_repair && !isWorking)
         {
             isWorking = true;
             _spriteRenderer.sprite = workingState;
@@ -32,5 +33,11 @@ public class Appliance : MonoBehaviour
     Appliance RepairAppliance()
     {
         return this;
+    }
+
+    public void SetBroken()
+    {
+        isWorking = false;
+        _spriteRenderer.sprite = brokenState;
     }
 }
