@@ -166,7 +166,7 @@ public class PlayerMovement : MonoBehaviour
         {
             Debug.Log("HELLO");
             var transform1 = _rgd2d.transform;
-            transform1.position = new Vector3(other.transform.position.x, transform1.position.y + 0.5f, 0);
+            transform1.position = new Vector3(other.transform.position.x, transform1.position.y - 0.5f, 0);
             ladder_mode = true;
         }
     }
