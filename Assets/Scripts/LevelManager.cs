@@ -27,7 +27,7 @@ public class LevelManager : MonoBehaviour
     public int time = 60 * 8;
 
     public static bool isMushroomMode = false;
-    public int mushroomEffectTime = 3;
+    public int mushroomEffectTime = 20;
     private int mushroomEffectDefaultTime;
     private int mushrooms = 10;
 
