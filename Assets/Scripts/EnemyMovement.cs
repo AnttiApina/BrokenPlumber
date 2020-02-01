@@ -9,6 +9,7 @@ public class EnemyMovement : Mushroomable
     public Sprite mushroomStateSprite;
     private SpriteRenderer _spriteRenderer;
     private Rigidbody2D _rgd2d;
+    private LevelManager _levelManager;
 
     private float speed = 3f;
     
@@ -19,6 +20,7 @@ public class EnemyMovement : Mushroomable
         base.Awake();
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _rgd2d = GetComponent<Rigidbody2D>();
+        _levelManager = FindObjectOfType<LevelManager>();
     }
 
     private void Update()
@@ -31,7 +33,19 @@ public class EnemyMovement : Mushroomable
         if (other.gameObject.CompareTag("WALL"))
         {
             speed *= -1;
+            return;
         }
+
+        PlayerMovement playerMovement = other.gameObject.GetComponent<PlayerMovement>();
+        if (playerMovement != null)
+        {
+            speed *= -1;
+            if (LevelManager.isMushroomMode)
+            {
+                _levelManager.InterruptMushroomMode();
+            }
+        }
+
     }
 
     public override void MushroomEffect(bool isMushroomState)
