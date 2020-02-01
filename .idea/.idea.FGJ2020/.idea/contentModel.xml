@@ -8,9 +8,11 @@
       <e p="Assets" t="Include">
         <e p="Scripts" t="Include">
           <e p="Appliance.cs" t="Include" />
+          <e p="DamageBehaviour.cs" t="Include" />
           <e p="EnemyMovement.cs" t="Include" />
           <e p="LevelManager.cs" t="Include" />
           <e p="Mushroomable.cs" t="Include" />
+          <e p="PiranhaBehaviour.cs" t="Include" />
           <e p="PlayerMovement.cs" t="Include" />
           <e p="UIManager.cs" t="Include" />
         </e>
