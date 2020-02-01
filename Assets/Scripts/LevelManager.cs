@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour
@@ -9,11 +10,12 @@ public class LevelManager : MonoBehaviour
     public static event OnApplianceRepaired ApplianceRepairedEvent;
 
     private Appliance[] _appliances;
+    private int _applianceToFixIndex;
 
     private void Start()
     {
-        _appliances = FindObjectsOfType<Appliance>();
-        Debug.Log("Number of appliances: " + _appliances.Length);
+        _appliances = FindObjectsOfType<Appliance>().OrderBy(app => app.order).ToArray();
+        _appliances[_applianceToFixIndex].SetBroken();
     }
 
     // Update is called once per frame
@@ -21,10 +23,11 @@ public class LevelManager : MonoBehaviour
     {
         if (ApplianceRepairedEvent != null)
         {
-            Appliance appliance = ApplianceRepairedEvent();
-            Vector3 appliancePos = appliance.transform.position;
-            Debug.Log(appliancePos.x + " " + appliancePos.y);
+            // Appliance appliance = ApplianceRepairedEvent();
             ApplianceRepairedEvent = null;
+
+            _applianceToFixIndex = _applianceToFixIndex < _appliances.Length - 1 ? _applianceToFixIndex + 1 : 0;
+            _appliances[_applianceToFixIndex].SetBroken();
         }
     }
 }

@@ -15,6 +15,7 @@ public class PlayerMovement : MonoBehaviour
 
     private bool is_grounded = false;
     private bool pressed_jump = false;
+    public bool pressed_repair = false;
     [SerializeField]
     [Range(0, 40)]
     private float m_speed = 10.0f;
@@ -38,6 +39,7 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         pressed_jump |= Input.GetButtonDown("Jump");
+        pressed_repair |= Input.GetKeyDown(KeyCode.R);
     }
 
     // Update is called once per frame
@@ -60,5 +62,16 @@ public class PlayerMovement : MonoBehaviour
         }
 
         pressed_jump = false;
+        
+        if (pressed_repair)
+        {
+            StartCoroutine(PlayerIsFixing());
+        }
+    }
+
+    IEnumerator PlayerIsFixing()
+    {
+        yield return new WaitForSeconds(0.1f);
+        pressed_repair = false;
     }
 }
