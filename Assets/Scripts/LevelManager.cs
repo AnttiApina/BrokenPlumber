@@ -21,6 +21,9 @@ public class LevelManager : MonoBehaviour
         _appliances = FindObjectsOfType<Appliance>().OrderBy(app => app.order).ToArray();
         _appliances[_applianceToFixIndex].SetBroken();
         StartCoroutine(Tick());
+        
+        UIManager.OnUpdateScore += () => playerScore;
+        UIManager.OnUpdateTime += () => time;
     }
 
     // Update is called once per frame
@@ -33,6 +36,7 @@ public class LevelManager : MonoBehaviour
             _applianceToFixIndex = _applianceToFixIndex < _appliances.Length - 1 ? _applianceToFixIndex + 1 : 0;
             _appliances[_applianceToFixIndex].SetBroken();
             playerScore++;
+            UIManager.OnUpdateScore += () => playerScore;
         }
     }
 
@@ -42,6 +46,7 @@ public class LevelManager : MonoBehaviour
         {
             yield return new WaitForSeconds(1);
             time -= 5;
+            UIManager.OnUpdateTime += () => time;
         }
         EndGame();
     }
