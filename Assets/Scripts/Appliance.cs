@@ -17,6 +17,7 @@ public class Appliance : MonoBehaviour
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _spriteRenderer.sprite = isWorking ? workingState : brokenState;
+        LevelManager.MushroomEffectChangeEvent += MushroomEffect;
     }
 
     private void OnTriggerStay2D(Collider2D other)
@@ -39,5 +40,17 @@ public class Appliance : MonoBehaviour
     {
         isWorking = false;
         _spriteRenderer.sprite = brokenState;
+    }
+
+    public void MushroomEffect(bool state)
+    {
+        if (state)
+        {
+            Debug.Log("IT'S MUSHROOMTIME!!!");
+        }
+        else
+        {
+            Debug.Log("No mushrooms anymore");
+        }
     }
 }
