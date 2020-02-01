@@ -11,11 +11,15 @@ public class LevelManager : MonoBehaviour
 
     private Appliance[] _appliances;
     private int _applianceToFixIndex;
+    
+    public int _playerScore;
+    public int _time = 60 * 8;
 
     private void Start()
     {
         _appliances = FindObjectsOfType<Appliance>().OrderBy(app => app.order).ToArray();
         _appliances[_applianceToFixIndex].SetBroken();
+        StartCoroutine(Tick());
     }
 
     // Update is called once per frame
@@ -25,9 +29,16 @@ public class LevelManager : MonoBehaviour
         {
             // Appliance appliance = ApplianceRepairedEvent();
             ApplianceRepairedEvent = null;
-
             _applianceToFixIndex = _applianceToFixIndex < _appliances.Length - 1 ? _applianceToFixIndex + 1 : 0;
             _appliances[_applianceToFixIndex].SetBroken();
+            _playerScore++;
         }
+    }
+
+    IEnumerator Tick()
+    {
+        yield return new WaitForSeconds(1);
+        _time -= 10;
+        
     }
 }
