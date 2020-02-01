@@ -539,15 +539,25 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 1961531680064668303, guid: a78737ff033304946a8b3815ce19fca0,
+        type: 3}
+      propertyPath: m_BodyType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1961531680064668303, guid: a78737ff033304946a8b3815ce19fca0,
+        type: 3}
+      propertyPath: m_UseFullKinematicContacts
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1961531680064668305, guid: a78737ff033304946a8b3815ce19fca0,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -9.268581
+      value: -8.73
       objectReference: {fileID: 0}
     - target: {fileID: 1961531680064668305, guid: a78737ff033304946a8b3815ce19fca0,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 8.17
+      value: 9.16
       objectReference: {fileID: 0}
     - target: {fileID: 1961531680064668305, guid: a78737ff033304946a8b3815ce19fca0,
         type: 3}
@@ -598,6 +608,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_down_threshold
       value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1961531680064668307, guid: a78737ff033304946a8b3815ce19fca0,
+        type: 3}
+      propertyPath: ladder_mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1961531680064668307, guid: a78737ff033304946a8b3815ce19fca0,
+        type: 3}
+      propertyPath: m_ladder_threshold
+      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a78737ff033304946a8b3815ce19fca0, type: 3}
@@ -1508,7 +1528,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5, y: 8, z: -10}
+  m_LocalPosition: {x: -5.6499996, y: 8, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -5389,6 +5409,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: PASSABLE_GROUND
+      objectReference: {fileID: 0}
+    - target: {fileID: 8568642323940662684, guid: 91f18e0febe234defbcef1f9a01420a9,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 91f18e0febe234defbcef1f9a01420a9, type: 3}

@@ -25,8 +25,12 @@ public class PlayerMovement : MonoBehaviour
     private bool is_climbing = false;
     private bool pressed_jump = false;
     private bool pressed_fall = false;
-    
+    public bool ladder_mode = true;
     public bool pressed_repair = false;
+    
+    LayerMask ladderModeMask;
+    ContactFilter2D  ladderModeFilter;
+    
     [SerializeField]
     [Range(0, 40)]
     private float m_speed = 10.0f;
@@ -39,6 +43,7 @@ public class PlayerMovement : MonoBehaviour
     [Range(0, 40)]
     private float m_jump_velocity = 5f;
     
+    private float m_ladder_threshold = 0.2f;
     
     // Start is called before the first frame update
     private void Awake()
@@ -47,6 +52,10 @@ public class PlayerMovement : MonoBehaviour
         _animator = GetComponent<Animator>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _boxCollider2D = GetComponent<BoxCollider2D>();
+
+        ladderModeMask = LayerMask.GetMask("Ground");
+        ladderModeFilter = new ContactFilter2D();
+        ladderModeFilter.layerMask = ladderModeMask;
     }
 
     private void Update()
@@ -60,6 +69,12 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        if (ladder_mode)
+        {
+            ladderMode();
+            return;            
+        }
+
         var contactsCount = _rgd2d.GetContacts(contact_list);
         is_grounded = (contact_list.Take(contactsCount).Any(contact => contact.normal.y > 0.9f));
         
@@ -113,6 +128,29 @@ public class PlayerMovement : MonoBehaviour
             _boxCollider2D.isTrigger = false;
             is_dropping = false;
             Debug.Log("stop falling");
+        }
+    }
+
+    private void ladderMode()
+    {
+        _rgd2d.bodyType = RigidbodyType2D.Kinematic;
+        var newVelocity = new Vector2(0, Input.GetAxisRaw("Vertical") * 5);
+        _rgd2d.velocity = newVelocity;
+
+        var bounds = _boxCollider2D.bounds;
+        var bottomBound = bounds.extents;
+        var boxCenter = bounds.center - bottomBound;
+        boxCenter.x += 0.5f;
+        
+        Debug.DrawLine(boxCenter, boxCenter + (Vector3.down * m_ladder_threshold), Color.magenta);
+        
+        var hit = Physics2D.Raycast(boxCenter, Vector2.down, m_ladder_threshold, ladderModeMask);
+        ladderModeFilter.layerMask = ladderModeMask;
+        var contactsCount = _rgd2d.GetContacts(ladderModeFilter, contact_list);
+        if(contactsCount <= 0 && hit)
+        { 
+            _rgd2d.bodyType = RigidbodyType2D.Dynamic; 
+            ladder_mode = false;
         }
     }
 
