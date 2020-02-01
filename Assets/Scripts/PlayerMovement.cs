@@ -62,5 +62,16 @@ public class PlayerMovement : MonoBehaviour
         }
 
         pressed_jump = false;
+        
+        if (pressed_repair)
+        {
+            StartCoroutine(PlayerIsFixing());
+        }
+    }
+
+    IEnumerator PlayerIsFixing()
+    {
+        yield return new WaitForSeconds(0.1f);
+        pressed_repair = false;
     }
 }

@@ -19,7 +19,7 @@ public class Appliance : MonoBehaviour
         _spriteRenderer.sprite = isWorking ? workingState : brokenState;
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerStay2D(Collider2D other)
     {
         PlayerMovement playerMovement = other.gameObject.GetComponent<PlayerMovement>();
         if (playerMovement != null && playerMovement.pressed_repair && !isWorking)
