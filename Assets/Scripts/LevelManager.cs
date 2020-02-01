@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
+    private static LevelManager _instance;
+    public static LevelManager Instance { get { return _instance; } }
     public delegate Appliance OnApplianceRepaired();
     public static event OnApplianceRepaired ApplianceRepairedEvent;
 
@@ -14,6 +16,9 @@ public class LevelManager : MonoBehaviour
 
     public static event OnMushroomEffectChange MushroomEffectChangeEvent;
     private bool _pressed_mushroom_key = false;
+
+    // public delegate void OnPlayerTakeHit();
+    // public static event OnPlayerTakeHit PlayerTakeHitEvent;
 
     private Appliance[] _appliances;
     private int _applianceToFixIndex;
@@ -25,6 +30,18 @@ public class LevelManager : MonoBehaviour
     public int mushroomEffectTime = 3;
     private int mushroomEffectDefaultTime;
     private int mushrooms = 10;
+
+    private void Awake()
+    {
+        if (_instance != null && _instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            _instance = this;
+        }
+    }
 
     private void Start()
     {
@@ -52,7 +69,7 @@ public class LevelManager : MonoBehaviour
             playerScore++;
             UIManager.OnUpdateScore += () => playerScore;
         }
-        
+
         _pressed_mushroom_key |= Input.GetKeyDown(KeyCode.T);
         if (_pressed_mushroom_key && !isMushroomMode && mushrooms > 0)
         {
@@ -87,6 +104,14 @@ public class LevelManager : MonoBehaviour
         }
         UIManager.OnUpdateMushroomTime += () => 0;
 
+        isMushroomMode = false;
+        MushroomEffectChangeEvent?.Invoke(isMushroomMode);
+        mushroomEffectTime = mushroomEffectDefaultTime;
+    }
+
+    public void InterruptMushroomMode()
+    {
+        StopCoroutine("StartMushroomTimer");
         isMushroomMode = false;
         MushroomEffectChangeEvent?.Invoke(isMushroomMode);
         mushroomEffectTime = mushroomEffectDefaultTime;
