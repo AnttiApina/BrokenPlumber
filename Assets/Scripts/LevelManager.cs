@@ -10,20 +10,33 @@ public class LevelManager : MonoBehaviour
     public delegate Appliance OnApplianceRepaired();
     public static event OnApplianceRepaired ApplianceRepairedEvent;
 
+    public delegate void OnMushroomEffectChange(bool state);
+
+    public static event OnMushroomEffectChange MushroomEffectChangeEvent;
+    private bool _pressed_mushroom_key = false;
+
     private Appliance[] _appliances;
     private int _applianceToFixIndex;
     
     public int playerScore;
     public int time = 60 * 8;
-
+    
+    public int mushroomEffectTime = 3;
+    private int mushroomEffectDefaultTime;
+    private int mushrooms = 10; 
+    
     private void Start()
     {
+        // MushroomEffectChangeEvent = defaultFn;
         _appliances = FindObjectsOfType<Appliance>().OrderBy(app => app.order).ToArray();
         _appliances[_applianceToFixIndex].SetBroken();
+        mushroomEffectDefaultTime = mushroomEffectTime;
         StartCoroutine(Tick());
-        
-        UIManager.OnUpdateScore += () => playerScore;
+
         UIManager.OnUpdateTime += () => time;
+        UIManager.OnUpdateScore += () => playerScore;
+        UIManager.OnUpdateMushroomTime += () => 0;
+        UIManager.OnUpdateMushroomCount += () => mushrooms;
     }
 
     // Update is called once per frame
@@ -38,6 +51,16 @@ public class LevelManager : MonoBehaviour
             playerScore++;
             UIManager.OnUpdateScore += () => playerScore;
         }
+        
+        _pressed_mushroom_key |= Input.GetKeyDown(KeyCode.T);
+        if (_pressed_mushroom_key && mushroomEffectTime == mushroomEffectDefaultTime && mushrooms > 0)
+        {
+            MushroomEffectChangeEvent?.Invoke(true);
+            mushrooms--;
+            UIManager.OnUpdateMushroomCount += () => mushrooms;
+            StartCoroutine(StartMushroomTimer());
+        }
+        _pressed_mushroom_key = false;
     }
 
     IEnumerator Tick()
@@ -49,6 +72,21 @@ public class LevelManager : MonoBehaviour
             UIManager.OnUpdateTime += () => time;
         }
         EndGame();
+    }
+
+    IEnumerator StartMushroomTimer()
+    {
+        while (mushroomEffectTime > 0)
+        {
+            mushroomEffectTime -= 1;
+            UIManager.OnUpdateMushroomTime += () => mushroomEffectTime + 1;
+            yield return new WaitForSeconds(1);
+            UIManager.OnUpdateMushroomTime += () => mushroomEffectTime + 1;
+        }
+        UIManager.OnUpdateMushroomTime += () => 0;
+
+        MushroomEffectChangeEvent?.Invoke(false);
+        mushroomEffectTime = mushroomEffectDefaultTime;
     }
 
     private void EndGame()
