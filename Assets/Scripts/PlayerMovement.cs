@@ -9,6 +9,8 @@ using Vector2 = UnityEngine.Vector2;
 public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody2D _rgd2d;
+    private Animator _animator;
+    private SpriteRenderer _spriteRenderer;
     private Vector2 cur_velo = Vector2.zero;
     
     private List<ContactPoint2D> contact_list = new List<ContactPoint2D>();
@@ -34,6 +36,8 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         _rgd2d = GetComponent<Rigidbody2D>();
+        _animator = GetComponent<Animator>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     private void Update()
@@ -51,9 +55,14 @@ public class PlayerMovement : MonoBehaviour
         Vector2 velocity;
         var newVelocity = new Vector2(Input.GetAxisRaw("Horizontal") * m_speed, (velocity = this._rgd2d.velocity).y);
         _rgd2d.velocity = Vector2.SmoothDamp(velocity, newVelocity, ref cur_velo, m_smooth_time);
+
+        var absX = Math.Abs(velocity.x);
+        if (absX > .1f)
+        {
+            _spriteRenderer.flipX = velocity.x > 0;
+        }
+        _animator.SetBool("Moving", absX > 0.1f);
         
-        //Debug.Log("Is grounded " + is_grounded);
-        //Debug.Log("Is pressed " + pressed_jump);
         if (is_grounded && pressed_jump)
         {
             is_grounded = false;
