@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
@@ -12,8 +13,8 @@ public class LevelManager : MonoBehaviour
     private Appliance[] _appliances;
     private int _applianceToFixIndex;
     
-    public int _playerScore;
-    public int _time = 60 * 8;
+    public int playerScore;
+    public int time = 60 * 8;
 
     private void Start()
     {
@@ -31,14 +32,22 @@ public class LevelManager : MonoBehaviour
             ApplianceRepairedEvent = null;
             _applianceToFixIndex = _applianceToFixIndex < _appliances.Length - 1 ? _applianceToFixIndex + 1 : 0;
             _appliances[_applianceToFixIndex].SetBroken();
-            _playerScore++;
+            playerScore++;
         }
     }
 
     IEnumerator Tick()
     {
-        yield return new WaitForSeconds(1);
-        _time -= 10;
-        
+        while (time > 0)
+        {
+            yield return new WaitForSeconds(1);
+            time -= 5;
+        }
+        EndGame();
+    }
+
+    private void EndGame()
+    {
+        SceneManager.LoadScene(0);
     }
 }

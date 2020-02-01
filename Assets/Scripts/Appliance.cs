@@ -13,7 +13,7 @@ public class Appliance : MonoBehaviour
     public int order = 0;
     
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _spriteRenderer.sprite = isWorking ? workingState : brokenState;
