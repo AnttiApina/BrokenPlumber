@@ -6,6 +6,7 @@ TagManager:
   tags:
   - LADDER
   - WALL
+  - PASSABLE_GROUND
   layers:
   - Default
   - TransparentFX
@@ -15,8 +16,8 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
+  - Ladders
+  - Ground
   - 
   - 
   - 
