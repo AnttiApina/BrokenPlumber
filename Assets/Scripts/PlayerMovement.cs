@@ -22,12 +22,11 @@ public class PlayerMovement : MonoBehaviour
 
     private bool is_grounded = false;
     private bool is_dropping = false;
-    private bool is_climbing = false;
     private bool pressed_jump = false;
     private bool pressed_fall = false;
-    public bool ladder_mode = true;
+    public bool ladder_mode = false;
     public bool pressed_repair = false;
-    
+
     LayerMask ladderModeMask;
     ContactFilter2D  ladderModeFilter;
     
@@ -43,7 +42,7 @@ public class PlayerMovement : MonoBehaviour
     [Range(0, 40)]
     private float m_jump_velocity = 5f;
     
-    private float m_ladder_threshold = 0.2f;
+    private float m_ladder_threshold = 0.4f;
     
     // Start is called before the first frame update
     private void Awake()
@@ -55,7 +54,8 @@ public class PlayerMovement : MonoBehaviour
 
         ladderModeMask = LayerMask.GetMask("Ground");
         ladderModeFilter = new ContactFilter2D();
-        ladderModeFilter.layerMask = ladderModeMask;
+        ladderModeFilter.useLayerMask = true;
+        ladderModeFilter.SetLayerMask(ladderModeMask);
     }
 
     private void Update()
@@ -145,12 +145,29 @@ public class PlayerMovement : MonoBehaviour
         Debug.DrawLine(boxCenter, boxCenter + (Vector3.down * m_ladder_threshold), Color.magenta);
         
         var hit = Physics2D.Raycast(boxCenter, Vector2.down, m_ladder_threshold, ladderModeMask);
-        ladderModeFilter.layerMask = ladderModeMask;
         var contactsCount = _rgd2d.GetContacts(ladderModeFilter, contact_list);
+        Debug.Log("Contacts " + contactsCount);
+        
         if(contactsCount <= 0 && hit)
         { 
             _rgd2d.bodyType = RigidbodyType2D.Dynamic; 
             ladder_mode = false;
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        Debug.Log("Stay");
+        if (other.tag == "LADDER")
+        {
+            Debug.Log("FOUND LADDER");
+        }
+        if (!ladder_mode && other.tag == "LADDER" && Input.GetKey(KeyCode.K))
+        {
+            Debug.Log("HELLO");
+            var transform1 = _rgd2d.transform;
+            transform1.position = new Vector3(other.transform.position.x, transform1.position.y + 0.5f, 0);
+            ladder_mode = true;
         }
     }
 
