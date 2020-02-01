@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Transactions;
 using UnityEngine;
 
-public class Appliance : MonoBehaviour
+public class Appliance : Mushroomable
 {
     private SpriteRenderer _spriteRenderer;
     public Sprite workingState;
@@ -13,11 +14,11 @@ public class Appliance : MonoBehaviour
     public int order = 0;
     
     // Start is called before the first frame update
-    void Awake()
+    public override void Awake()
     {
+        base.Awake();
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _spriteRenderer.sprite = isWorking ? workingState : brokenState;
-        LevelManager.MushroomEffectChangeEvent += MushroomEffect;
     }
 
     private void OnTriggerStay2D(Collider2D other)
@@ -42,9 +43,9 @@ public class Appliance : MonoBehaviour
         _spriteRenderer.sprite = brokenState;
     }
 
-    public void MushroomEffect(bool state)
+    public override void MushroomEffect(bool isMushroomState)
     {
-        if (state)
+        if (isMushroomState)
         {
             Debug.Log("IT'S MUSHROOMTIME!!!");
         }
