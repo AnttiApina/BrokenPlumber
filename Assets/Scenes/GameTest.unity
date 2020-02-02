@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -413,11 +413,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1961531680064668306, guid: a78737ff033304946a8b3815ce19fca0,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 688ef5e6367272542aff61958e0597d3, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a78737ff033304946a8b3815ce19fca0, type: 3}
 --- !u!1001 &481101673
@@ -1096,12 +1091,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: -1201952249705092355, guid: d01b723ce21754748bb9785ccfbd65ee,
-        type: 3}
-      propertyPath: OutputAudioMixerGroup
-      value: 
-      objectReference: {fileID: 7407980254137031082, guid: e683c5870482a3e4ba697aded11b1990,
-        type: 2}
     - target: {fileID: 4203628067063221265, guid: d01b723ce21754748bb9785ccfbd65ee,
         type: 3}
       propertyPath: m_Name
@@ -1161,26 +1150,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4203628067063221271, guid: d01b723ce21754748bb9785ccfbd65ee,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 688ef5e6367272542aff61958e0597d3, type: 2}
-    - target: {fileID: 6862187050332191668, guid: d01b723ce21754748bb9785ccfbd65ee,
-        type: 3}
-      propertyPath: m_Constraints
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 6862187050332191668, guid: d01b723ce21754748bb9785ccfbd65ee,
-        type: 3}
-      propertyPath: m_GravityScale
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6862187050332191668, guid: d01b723ce21754748bb9785ccfbd65ee,
-        type: 3}
-      propertyPath: m_Mass
-      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d01b723ce21754748bb9785ccfbd65ee, type: 3}
@@ -6118,10 +6087,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1323380952, guid: 9218ccbdef0ae3c40ad44b731250779a, type: 3}
-      propertyPath: weight
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2822993341878616593, guid: 9218ccbdef0ae3c40ad44b731250779a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6181,11 +6146,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: TripManager
-      objectReference: {fileID: 0}
-    - target: {fileID: 3842993124837434336, guid: 9218ccbdef0ae3c40ad44b731250779a,
-        type: 3}
-      propertyPath: weight
-      value: 0.516
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9218ccbdef0ae3c40ad44b731250779a, type: 3}

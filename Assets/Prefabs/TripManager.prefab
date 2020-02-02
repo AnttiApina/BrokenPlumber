@@ -47,7 +47,7 @@ MonoBehaviour:
   isGlobal: 1
   priority: 2
   blendDistance: 0
-  weight: 0.407
+  weight: 0
   sharedProfile: {fileID: 11400000, guid: 83ce6d2287f2224468175bdaf60273f2, type: 2}
 --- !u!111 &1323380951
 Animation:
@@ -112,6 +112,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boomClip: {fileID: 1323380951}
+  pixelMaterial: {fileID: 0}
 --- !u!114 &3842993124837434336
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -127,7 +128,7 @@ MonoBehaviour:
   isGlobal: 1
   priority: 1
   blendDistance: 0
-  weight: 1
+  weight: 0.516
   sharedProfile: {fileID: 11400000, guid: 6da178fe0e7760b42aa512e9f4c65e39, type: 2}
 --- !u!320 &2068734117
 PlayableDirector:
