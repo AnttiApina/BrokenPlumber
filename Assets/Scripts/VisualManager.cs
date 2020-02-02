@@ -32,4 +32,28 @@ public class VisualManager : MonoBehaviour
     {
         
     }
+    private float progress = 0f;
+    void Update()
+    {
+    }
+
+    IEnumerator lerpTo(float targetProgress)
+    {
+        float duration = 4.0f;
+        float t = 0;
+
+        var curProgress = progress;
+
+        while (t < duration)
+        {
+            t += Time.deltaTime;
+
+            var speed_t = t / duration;
+            progress = Mathf.SmoothStep(curProgress, targetProgress, speed_t);
+
+            yield return null;
+        }
+
+        yield return null;
+    }
 }
