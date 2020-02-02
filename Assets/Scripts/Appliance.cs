@@ -9,7 +9,8 @@ public class Appliance : Mushroomable
     private SpriteRenderer _spriteRenderer;
     public Sprite workingState;
     public Sprite brokenState;
-
+    public AudioSource audioSource;
+    
     public bool isWorking = true;
     public int order = 0;
     
@@ -27,6 +28,7 @@ public class Appliance : Mushroomable
         if (playerMovement != null && playerMovement.pressed_repair && !isWorking)
         {
             isWorking = true;
+            audioSource?.Play();
             _spriteRenderer.sprite = workingState;
             LevelManager.ApplianceRepairedEvent += RepairAppliance;
         }
