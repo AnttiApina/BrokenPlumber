@@ -98,6 +98,7 @@ public class PlayerMovement : Mushroomable
     // Update is called once per frame
     void FixedUpdate()
     {
+        _animator.speed = _rgd2d.velocity.magnitude < 0.05f ? 0 : 1;
         if (ladder_mode)
         {
             ladderMode();
@@ -126,7 +127,10 @@ public class PlayerMovement : Mushroomable
             _spriteRenderer.flipX = velocity.x > 0;
         }
 
-        _animator.SetBool("Moving", !is_dropping && absX > 0.1f);
+        if (!ladder_mode)
+        {
+            _animator.SetBool("Moving", !is_dropping && absX > 0.1f);
+        }
 
         if (is_dropping)
         {
@@ -188,6 +192,7 @@ public class PlayerMovement : Mushroomable
         if(contactsCount <= 0 && hit)
         { 
             _rgd2d.bodyType = RigidbodyType2D.Dynamic; 
+            _animator.SetBool("Climbing", false);
             ladder_mode = false;
         }
     }
@@ -208,11 +213,13 @@ public class PlayerMovement : Mushroomable
             rigidTransformPosition = new Vector3(other.transform.position.x, rigidTransformPosition.y + 0.25f, 0);
             _rgd2d.transform.position = rigidTransformPosition;
             ladder_mode = true;
+            _animator.SetBool("Climbing", true);
         } else if (ladderBelow && Input.GetAxisRaw("Vertical") < 0)
         {
             rigidTransformPosition = new Vector3(other.transform.position.x, rigidTransformPosition.y - 0.5f, 0);
             _rgd2d.transform.position = rigidTransformPosition;
             ladder_mode = true;
+            _animator.SetBool("Climbing", true);
         }
     }
 
