@@ -90,6 +90,12 @@ public class LevelManager : MonoBehaviour
             mushroomtimer = StartCoroutine(StartMushroomTimer());
         }
         _pressed_mushroom_key = false;
+
+        if (Input.GetKey("escape"))
+        {
+            Application.Quit();
+        }
+        
     }
 
     IEnumerator Tick()
