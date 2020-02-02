@@ -40,7 +40,7 @@ public class EnemyMovement : Mushroomable
         if (playerMovement != null)
         {
             speed *= -1;
-            if (LevelManager.isMushroomMode)
+            if (_levelManager.isMushroomMode)
             {
                 _levelManager.InterruptMushroomMode();
             }

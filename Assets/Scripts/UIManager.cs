@@ -10,12 +10,15 @@ public class UIManager : MonoBehaviour
     public Text scoreTxt;
     public Text mushroomTimeTxt;
     public Text mushroomCountTxt;
+    public Text enterVoidTxt;
 
     public delegate int UpdateUI();
     public static event UpdateUI OnUpdateTime;
     public static event UpdateUI OnUpdateScore;
     public static event UpdateUI OnUpdateMushroomTime;
     public static event UpdateUI OnUpdateMushroomCount;
+
+    public static event UpdateUI OnUpdateEnterVoidText;
     
 
 
@@ -44,6 +47,12 @@ public class UIManager : MonoBehaviour
         {
             UpdateText(mushroomTimeTxt, "Mushroom time:", OnUpdateMushroomTime());
             OnUpdateMushroomTime = null;
+        }
+
+        if (OnUpdateEnterVoidText != null)
+        {
+            enterVoidTxt.text = OnUpdateEnterVoidText() == 1 ? "You entered \"The Void\"" : "";
+            OnUpdateEnterVoidText = null;
         }
         
     }
