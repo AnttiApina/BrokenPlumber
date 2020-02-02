@@ -55,6 +55,8 @@ public class PlayerMovement : Mushroomable
     private float m_jump_velocity = 5f;
     
     private float m_ladder_threshold = 0.4f;
+
+    private String animTrigger = null;
     
     // Start is called before the first frame update
     private void Awake()
@@ -107,13 +109,17 @@ public class PlayerMovement : Mushroomable
 
         var contactsCount = _rgd2d.GetContacts(contact_list);
         is_grounded = (contact_list.Take(contactsCount).Any(contact => contact.normal.y > 0.9f));
-        
+
         if (is_grounded && pressed_fall)
         {
+            _animator.SetTrigger("Jump");
             _rgd2d.velocity = Vector2.zero;
             Debug.Log("FREEFALLING");
             _boxCollider2D.isTrigger = true;
             is_dropping = true;
+        } else if (is_grounded)
+        {
+            _animator.SetTrigger("Contact");
         }
 
         Vector2 velocity;
@@ -139,6 +145,7 @@ public class PlayerMovement : Mushroomable
         
         if (is_grounded && pressed_jump)
         {
+            _animator.SetTrigger("Jump");
             is_grounded = false;
             _rgd2d.AddForce(new Vector2(0f, m_jump_velocity * 50));
             Debug.Log("PRESSED JUMP");
@@ -152,7 +159,8 @@ public class PlayerMovement : Mushroomable
         
         pressed_jump = false;
         pressed_fall = false;
-        
+        animTrigger = null;
+
         // ShowArrow();
     }
 
