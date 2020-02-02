@@ -5,7 +5,8 @@ using UnityEngine;
 public class VisualManager : MonoBehaviour
 {
     private Camera camera;
-     
+    public Animation boomClip;
+    public Material pixelMaterial;
     void Start()
     {
         camera = Camera.main;
@@ -26,7 +27,8 @@ public class VisualManager : MonoBehaviour
 
     void onEnableMushrooms()
     {
-        }
+        boomClip.Play();
+    }
     
     void onDisableMushrooms()
     {
