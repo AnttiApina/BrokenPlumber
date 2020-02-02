@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class VisualManager : MonoBehaviour
 {
     private Camera camera;
     public Animation boomClip;
     public Material pixelMaterial;
+    public Volume volumeStack;
     void Start()
     {
         camera = Camera.main;
@@ -32,30 +34,25 @@ public class VisualManager : MonoBehaviour
     
     void onDisableMushrooms()
     {
-        
+        StartCoroutine(FadeMushroomEffect(volumeStack, 3f));
     }
     private float progress = 0f;
     void Update()
     {
     }
 
-    IEnumerator lerpTo(float targetProgress)
+    public static IEnumerator FadeMushroomEffect(Volume vol, float duration)
     {
-        float duration = 4.0f;
-        float t = 0;
+        float currentTime = 0;
 
-        var curProgress = progress;
+        float startWeight = vol.weight;
 
-        while (t < duration)
+        while (currentTime < duration)
         {
-            t += Time.deltaTime;
-
-            var speed_t = t / duration;
-            progress = Mathf.SmoothStep(curProgress, targetProgress, speed_t);
-
+            currentTime += Time.deltaTime;
+            vol.weight = Mathf.Lerp(startWeight, 0f, currentTime / duration);
             yield return null;
         }
-
-        yield return null;
+        yield break;
     }
 }

@@ -113,6 +113,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boomClip: {fileID: 1323380951}
   pixelMaterial: {fileID: 0}
+  volumeStack: {fileID: 1323380952}
 --- !u!114 &3842993124837434336
 MonoBehaviour:
   m_ObjectHideFlags: 0
