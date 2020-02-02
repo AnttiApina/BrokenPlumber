@@ -89,7 +89,7 @@ GameObject:
   - component: {fileID: 1120778356}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -221,6 +221,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ladder_mode: 0
   pressed_repair: 0
+  arrow: {fileID: 284415461396451483, guid: a923203e5fd644b799c530761ef8fa14, type: 3}
   m_speed: 13
   grimSpeed: 5
   m_smooth_time: 0.05

@@ -3,13 +3,19 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Quaternion = UnityEngine.Quaternion;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 
 public class PlayerMovement : Mushroomable
 {
+    private LevelManager _levelManager;
+    public static Vector3 nextFixable;
+
+    public Vector3 initPos;
     private Rigidbody2D _rgd2d;
     private Animator _animator;
     private SpriteRenderer _spriteRenderer;
@@ -54,6 +60,8 @@ public class PlayerMovement : Mushroomable
     private void Awake()
     {
         base.Awake();
+        _levelManager = FindObjectOfType<LevelManager>();
+        initPos = transform.position;
         currentSpeed = grimSpeed;
         _rgd2d = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
@@ -66,6 +74,13 @@ public class PlayerMovement : Mushroomable
         ladderModeFilter = new ContactFilter2D();
         ladderModeFilter.useLayerMask = true;
         ladderModeFilter.SetLayerMask(ladderModeMask);
+        
+        
+    }
+
+    public void Respawn()
+    {
+        transform.position = initPos;
     }
 
     public override void MushroomEffect(bool isMushroomState)
@@ -75,10 +90,9 @@ public class PlayerMovement : Mushroomable
 
     private void Update()
     {
-        pressed_jump |= Input.GetButtonDown("Jump") && LevelManager.isMushroomMode;
+        pressed_jump |= Input.GetButtonDown("Jump") && _levelManager.isMushroomMode;
         pressed_repair |= Input.GetKeyDown(KeyCode.R);
-        pressed_fall |=  Input.GetButton("Jump") && Input.GetKey(KeyCode.S) && LevelManager.isMushroomMode;
-        Debug.Log(pressed_fall);
+        pressed_fall |=  Input.GetButton("Jump") && Input.GetKey(KeyCode.S) && _levelManager.isMushroomMode;
     }
 
     // Update is called once per frame
@@ -134,6 +148,14 @@ public class PlayerMovement : Mushroomable
         
         pressed_jump = false;
         pressed_fall = false;
+        
+        // ShowArrow();
+    }
+
+    private void ShowArrow()
+    {
+        Vector3 direction = nextFixable - transform.position;
+        Quaternion rotation = Quaternion.LookRotation(direction);
     }
 
     private void OnTriggerExit2D(Collider2D other)

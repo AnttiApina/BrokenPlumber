@@ -15,7 +15,7 @@ public class DamageBehaviour : MonoBehaviour
         PlayerMovement playerMovement = other.gameObject.GetComponent<PlayerMovement>();
         if(playerMovement != null)
         {
-            if (LevelManager.isMushroomMode)
+            if (_levelManager.isMushroomMode)
             {
                 _levelManager.InterruptMushroomMode();
             }
