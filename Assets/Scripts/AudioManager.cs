@@ -66,4 +66,9 @@ public class AudioManager : MonoBehaviour
         }
         yield break;
     }
+    
+    public void OnDisable()
+    {
+        LevelManager.MushroomEffectChangeEvent -= OnMushroomChange;
+    }
 }

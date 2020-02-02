@@ -10,4 +10,9 @@ public abstract class Mushroomable : MonoBehaviour
     }
 
     public abstract void MushroomEffect(bool isMushroomState);
+
+    public void OnDisable()
+    {
+        LevelManager.MushroomEffectChangeEvent -= MushroomEffect;
+    }
 }

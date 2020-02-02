@@ -55,4 +55,9 @@ public class VisualManager : MonoBehaviour
         }
         yield break;
     }
+    
+    public void OnDisable()
+    {
+        LevelManager.MushroomEffectChangeEvent -= OnMushroomChange;
+    }
 }

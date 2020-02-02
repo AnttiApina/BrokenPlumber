@@ -47,7 +47,6 @@ public class LevelManager : MonoBehaviour
         {
             _instance = this;
         }
-        DontDestroyOnLoad(gameObject);
     }
     
     private void Start()
